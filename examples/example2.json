@@ -1,0 +1,66 @@
+{
+	"game": {
+		"name": "avoid",
+		"instruction": "Avoid!",
+		"length": 4,
+
+		"run": []
+	},
+
+	"subroutines": {
+	},
+
+	"map": {
+
+	},
+
+	"actor_placement": [
+		["player", 128, 128],
+		["avoidme", 32, 32],
+		["avoidme", 32, 200],
+		["avoidme", 200, 200],
+		["avoidme", 200, 32]
+	],
+
+	"actors": {
+		"player": {
+			"graphic": "$01",
+			"size": [16, 16],
+			"run": [
+				["set", "speed", 2],
+				["8way-movement", 255]
+			]
+		},
+		"avoidme": {
+			"graphic": "$25",
+			"size": [16, 16],
+			"run": [
+				["set", "speed", 7],
+				["ball-movement"],
+				{
+					"if": ["touching-type", "actor:player"],
+					"then": [
+						["destroy"],
+						["lose-game"]
+					]
+				},
+
+				{
+					"if": ["every-32-frames"],
+					"then": [
+						{
+							"if": ["random", 192],
+							"then": [
+								["set", "direction", 0, "random", 31]
+							],
+							"else": [
+								["find-type", "actor:player"],
+								["look-at-actor"]
+							]
+						}
+					]
+				}
+			]
+		}
+	}
+}

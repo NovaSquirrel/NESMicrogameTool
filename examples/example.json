@@ -1,0 +1,110 @@
+{
+	"game": {
+		"name": "getcoins",
+		"instruction": "Get!",
+		"length": 4,
+
+		"run": []
+	},
+
+	"subroutines": {
+		"test": [
+			["asm", "lda #1", "lda #2", "lda #3", "lda #4"],
+			["stop"]
+		]
+	},
+
+	"map": {
+
+	},
+
+	"actor_placement": [
+		["player", 128, 128],
+		["getme", 32, 32],
+		["getme", 32, 200],
+		["getme", 200, 200],
+		["getme", 200, 32]
+	],
+
+	"actors": {
+		"player": {
+			"graphic": "$01",
+			"size": [16, 16],
+			"run": [
+				["set", "speed", 2],
+				["8way-movement", 255]
+			]
+		},
+		"getme": {
+			"graphic": "$e8",
+			"size": [16, 16],
+			"run": [
+				["set", "speed", 5],
+				["ball-movement"],
+				{
+					"if": ["touching-type", "actor:player"],
+					"then": [
+						["destroy"],
+						{
+							"if": ["not", "find-type", "actor:getme"],
+							"then": [
+								["win-game"]
+							]
+						}
+					]
+				}
+			]
+		},
+		"misc_test": {
+			"graphic": "$03",
+			"size": [16, 16],
+			"run": [
+				["create", "actor:getme", 50, 50],
+				["asm", "nop", "nop", "nop"],
+				["call", "test"],
+				{
+					"if": ["speed", "<", 20],
+					"then": [
+						["set", "speed", "speed", "+", 1]
+					],
+					"else": [
+						["set", "speed", 0]
+					]
+				}
+			]
+		},
+		"condition_test": {
+			"graphic": "$05",
+			"size": [16, 16],
+			"run": [
+				{
+					"if": ["global", "<", "global2"],
+					"then": [
+						["set", "speed", "speed", "+", 1]
+					]
+				},
+
+				{
+					"if": ["not", "global", "<", "global2"],
+					"then": [
+						["set", "speed", "speed", "+", 1]
+					]
+				},
+
+				{
+					"if": ["or", ["global", "<", 10], ["global", "<", "global2"]],
+					"then": [
+						["set", "speed", "speed", "+", 1]
+					]
+				},
+
+				{
+					"if": ["and", ["global", "<", 10], ["global", "<", "global2"]],
+					"then": [
+						["set", "speed", "speed", "+", 1]
+					]
+				}
+			]
+		}
+	}
+}

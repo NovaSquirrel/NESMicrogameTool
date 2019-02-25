@@ -1,0 +1,161 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="actor" id="Zpbx=w*N`AG8T%1,~!Pd" x="191" y="77">
+    <field name="NAME">player</field>
+    <statement name="RUN">
+      <block type="set_nomath" id="d^_-}I^s;`Dfm~{t:NU]">
+        <value name="LEFT">
+          <block type="property" id="!zZk8D,5=-yK+h./=O4y">
+            <field name="NAME">SPEED</field>
+          </block>
+        </value>
+        <value name="RIGHT">
+          <block type="math_number" id="%1e3=I6!DlF#j{,x^ts[">
+            <field name="NUM">2</field>
+          </block>
+        </value>
+        <next>
+          <block type="eightway_movement" id="90{C9H@]AT7GCxdzeJvl">
+            <field name="LEFT">TRUE</field>
+            <field name="DOWN">TRUE</field>
+            <field name="UP">TRUE</field>
+            <field name="RIGHT">TRUE</field>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="actor" id="H;Lf7=qRT7-B3ITk,BFi" x="522" y="103">
+    <field name="NAME">avoidme</field>
+    <statement name="RUN">
+      <block type="set_nomath" id="+=?kcvnnV^tk@prc@A`P">
+        <value name="LEFT">
+          <block type="property" id="GoEYMKu(TfqxY#AwD%LR">
+            <field name="NAME">SPEED</field>
+          </block>
+        </value>
+        <value name="RIGHT">
+          <block type="math_number" id="rxmSfM/El8Il{[*90K4f">
+            <field name="NUM">7</field>
+          </block>
+        </value>
+        <next>
+          <block type="ball_movement" id="{gGZ%Akbi#k3M@W~r^J~">
+            <next>
+              <block type="controls_if" id="Z9T76xR|nniW9o3FXm^i">
+                <value name="IF0">
+                  <block type="touching_type" id=":u~}Ka/NoYacli5!4+p]">
+                    <value name="NAME">
+                      <block type="actor_type" id="MBW!uQ^2JVQ:f1T,_|g^">
+                        <field name="NAME">player</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="destroy" id="/W4oewMk6%M[!nwVSrPV">
+                    <next>
+                      <block type="lose_game" id="T1ma29}788{Fojuj?l82"></block>
+                    </next>
+                  </block>
+                </statement>
+                <next>
+                  <block type="controls_if" id="(IVz.1;b$gcefaq%$H%f">
+                    <value name="IF0">
+                      <block type="every_x_frames" id="o=Jt`}YeiVkF7)Mt|G6+">
+                        <field name="FREQUENCY">32</field>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="set_math" id="[2:#TUpL/5ciq.;Y+wGG">
+                        <field name="OPERATION">RANDOM</field>
+                        <value name="VARIABLE">
+                          <block type="temp" id="]c8`{,yPI:!M?(3V:[I=">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                        <value name="LEFT">
+                          <block type="math_number" id="Hc|d3zgk):0_iPW12|7A">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <value name="RIGHT">
+                          <block type="math_number" id=".W6T$#=G~%!p0OCipt9v">
+                            <field name="NUM">3</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_if" id="g=6%C3fG5y*v([qskM!}">
+                            <mutation else="1"></mutation>
+                            <value name="IF0">
+                              <block type="logic_compare" id="UX2#@y53Eg=!)lzHv4/(">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="temp" id="o|@]/3EU.aw(R3$U%b(s">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="Wu%z%vy(Y(3w+VdfU~o{">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="set_math" id="cl,VtlMADoRJ+CS{A:xI">
+                                <field name="OPERATION">RANDOM</field>
+                                <value name="VARIABLE">
+                                  <block type="property" id="PdYi1W[(XYrhnZ^vyudn">
+                                    <field name="NAME">DIRECTION</field>
+                                  </block>
+                                </value>
+                                <value name="LEFT">
+                                  <block type="math_number" id="r}Er1dQWT!E3q9JWQ^v6">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                                <value name="RIGHT">
+                                  <block type="math_number" id="Gw[/PAp#.x0Ai1tyJ$p6">
+                                    <field name="NUM">31</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </statement>
+                            <statement name="ELSE">
+                              <block type="find_type" id="Pf$Z$6f?sc!x~t43$e^@">
+                                <value name="NAME">
+                                  <block type="actor_type" id="9e#)uJ32`qya+7hk/iQw">
+                                    <field name="NAME">player</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="look_other" id="k%HGzT!O#9#f$lcVHek@"></block>
+                                </next>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="game_init_run" id=":mtg_SN7q~us]saf/nw|" x="188" y="348">
+    <statement name="RUN">
+      <block type="controls_if" id="8iDWZoWhavzz}%UUSzeO">
+        <value name="IF0">
+          <block type="at_end" id="lNVgp|CGP~F$uvMIm`o-"></block>
+        </value>
+        <statement name="DO0">
+          <block type="win_game" id="S%Aw#J20n-RX]tQ7YW*x"></block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>

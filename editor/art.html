@@ -1,0 +1,177 @@
+<html>
+<head>
+  <style>
+  .unselectable {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  }
+  </style>
+  <meta charset="utf-8">
+  <title>NES Microgame Editor (Art)</title>
+  <script src="art.js"></script>
+  <script src="chr.js"></script>
+  <script src="palette.js"></script>
+</head>
+<body onload="initArt();">
+
+   <table border="0">
+     <tr><td>Tileset</td><td><input type="file" id="tilesetToUse"></td></tr>
+     <tr><td>Game info</td><td><input type="file" id="fileToLoad"></td></tr>
+     <tr><td><button onclick="uploadJSON()">Load game info</button></td><td><button onclick="downloadJSON()">Save game info</button></td></tr>
+   </table>
+
+   <table border="1">
+     <tr>
+       <td>
+         Tileset
+         <select id="tilesetpalette" onchange="updateTilePicker();">
+           <option value="0">Map 0</option>
+           <option value="1">Map 1</option>
+           <option value="2">Map 2</option>
+           <option value="3">Map 3</option>
+           <option value="4">Actor 0</option>
+           <option value="5">Actor 1</option>
+           <option value="6">Actor 2</option>
+           <option value="7">Actor 3</option>
+         </select>
+         <select id="rightselect" onchange="rightChange();">
+           <option value="palette">Palette</option>
+           <option value="animation">Animation</option>
+           <option value="blocks">Blocks</option>
+           <option value="map">Map</option>
+           <option value="actors">Actors</option>
+           <option value="actorplacement">Actor placement</option>
+         </select>
+         <br>
+
+         <canvas id="selector" class="unselectable" width="256" height="512" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false" tabIndex="-1"></canvas><br>
+       </td>
+
+       <td style="vertical-align:top;">
+         <div id="rightpalette" style="display:block;">
+           <b>Colors</b><br>
+           <canvas class="unselectable" id="allcolors" width="256" height="64" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false"></canvas>
+
+           <p>
+           <table border="1" oncontextmenu="return false;">
+             <tr><td>Background color</td><td><canvas class="unselectable" id="bgcolor" width="96" height="32"></canvas></td></tr>
+             <tr><td>Map 0</td><td><canvas class="unselectable" id="pal0" width="96" height="32"></canvas></td></tr>
+             <tr><td>Map 1</td><td><canvas class="unselectable" id="pal1" width="96" height="32"></canvas></td></tr>
+             <tr><td>Map 2</td><td><canvas class="unselectable" id="pal2" width="96" height="32"></canvas></td></tr>
+             <tr><td>Map 3</td><td><canvas class="unselectable" id="pal3" width="96" height="32"></canvas></td></tr>
+             <tr><td>Actor 0</td><td><canvas class="unselectable" id="pal4" width="96" height="32"></canvas></td></tr>
+             <tr><td>Actor 1</td><td><canvas class="unselectable" id="pal5" width="96" height="32"></canvas></td></tr>
+             <tr><td>Actor 2</td><td><canvas class="unselectable" id="pal6" width="96" height="32"></canvas></td></tr>
+             <tr><td>Actor 3</td><td><canvas class="unselectable" id="pal7" width="96" height="32"></canvas></td></tr>
+           </table>
+           </p>
+
+         </div>
+         <div id="rightblocks" style="display:none;">
+           <b>Edit block</b><br>
+           <table border="1">
+             <tr><td>Preview<br>(Click on!)</td><td><canvas class="unselectable" id="blockpreview" width="32" height="32" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false"></canvas><br><button onclick="autoBlock();">Auto</button></td></tr>
+             <tr><td>Name</td><td><input id="blockname"></td></tr>
+             <tr><td>Top left</td><td><input id="blockul" onchange="updateBlockPreview();" type="number" min="0" max="255" value="0"></td></tr>
+             <tr><td>Top right</td><td><input id="blockur" onchange="updateBlockPreview();" type="number" min="0" max="255" value="0"></td></tr>
+             <tr><td>Bottom left</td><td><input id="blockll" onchange="updateBlockPreview();" type="number" min="0" max="255" value="0"></td></tr>
+             <tr><td>Bottom right</td><td><input id="blocklr" onchange="updateBlockPreview();" type="number" min="0" max="255" value="0"></td></tr>
+             <tr><td>Flags</td><td>
+               <input type="checkbox" id="flagsolidall">Solid (All)<br>
+               <input type="checkbox" id="flagsolidtop">Solid (Platform)<br>
+               <input type="checkbox" id="flaga">A<input type="checkbox" id="flagb">B
+               <input type="checkbox" id="flagc">C<input type="checkbox" id="flagd">D
+             </td></tr>
+             <tr><td>Palette</td><td><input onchange="updateBlockPreview();" type="number" id="flagpalette" min="0" max="3" value="0"></td></tr>
+           </table>
+           <p>
+             <button onclick="createBlock();">Create/Update</button><br>
+           </p>
+           <hr>
+           <p>
+             <select id="blockedit_select">
+             </select><br>
+             <button onclick="loadBlock();">Load</button><button onclick="deleteBlock();">Delete</button>
+           </p>
+         </div>
+
+         <div id="rightactors" style="display:none;">
+           <b>Actors</b><br>
+           <textarea id="actorlist" rows="20">write
+each
+actor
+type
+on
+a
+separate
+line</textarea>
+         </div>
+
+         <div id="rightmap" style="display:none;">
+           <b>Map</b><br>
+           <input type="checkbox" onchange="updateMap();" id="mapshowactors">Show actors on map<br>
+           <canvas class="unselectable" id="map" width="256" height="240" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false" oncontextmenu="return false;"></canvas><br>
+           <b>Blocks</b><br>
+           <canvas class="unselectable" id="map_blocks" width="256" height="64" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false"></canvas><br>
+         </div>
+         <div id="rightanimation" style="display:none;">
+           <b>Animation</b><br>
+           <table border="1">
+             <tr><td>Name</td><td><input id="animname"></td></tr>
+             <tr><td>Length</td><td>
+               <select id="animlength">
+                 <option value="0">1</option>
+                 <option value="1">2</option>
+                 <option value="2">4</option>
+                 <option value="3">8</option>
+               </select>
+             </td></tr>
+             <tr><td>Speed</td><td>
+               <select id="animspeed">
+                 <option value="0">30fps</option>
+                 <option value="1">15fps</option>
+                 <option value="2">7.5fps</option>
+                 <option value="3">3.75fps</option>
+               </select>
+             </td></tr>
+             <tr><td>Size</td><td>
+               <select id="animwidth" onchange="updateAnimFrames();">
+                 <option value="0">8</option>
+                 <option value="1">16</option>
+                 <option value="2">24</option>
+                 <option value="3">32</option>
+               </select>
+				&times;
+               <select id="animheight" onchange="updateAnimFrames();">
+                 <option value="0">8</option>
+                 <option value="1">16</option>
+                 <option value="2">24</option>
+                 <option value="3">32</option>
+               </select>
+             </td></tr>
+             <tr><td>Palette</td><td><input onchange="updateAnimFrames();" type="number" id="animpalette" min="0" max="3" value="0"></td></tr>
+             <tr><td>Preview</td><td><canvas class="unselectable" id="animpreview" width="32" height="32" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false"></canvas></td></tr>
+             <tr><td>Frames<br>(Click on!)</td><td><canvas class="unselectable" id="animframes" width="128" height="64" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false" oncontextmenu="return false;"></canvas></td></tr>
+           </table>
+
+           <p>
+             <button onclick="createAnimation();">Create/Update</button><br>
+           </p>
+           <hr>
+           <p>
+             <select id="animation_select">
+             </select><br>
+             <button onclick="loadAnimation();">Load</button><button onclick="deleteAnimation();">Delete</button>
+           </p>
+         </div>
+       </td>
+     </tr>
+   </table>
+   
+   <img src="tileset.png" id="tileset" style="display: none;">
+</body>
+</html>

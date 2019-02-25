@@ -1,0 +1,141 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="actor" id="F47[sr]cqf-A8`E}e/%)" x="265" y="208">
+    <field name="NAME">player</field>
+    <statement name="INIT">
+      <block type="animation" id="A?LBJFF!OV.Eb,#1Sd=e">
+        <field name="NAME">player</field>
+        <field name="XFLIP">FALSE</field>
+        <field name="YFLIP">FALSE</field>
+      </block>
+    </statement>
+    <statement name="RUN">
+      <block type="set_nomath" id="mHRK1=f41Tp[S0p=HG~N">
+        <value name="LEFT">
+          <block type="property" id="~qfvXL8$R!]H5q+,la{8">
+            <field name="NAME">SPEED</field>
+          </block>
+        </value>
+        <value name="RIGHT">
+          <block type="math_number" id="Z5FWQF**3NGu*t3OtiYV">
+            <field name="NUM">5</field>
+          </block>
+        </value>
+        <next>
+          <block type="eightway_movement" id="/GKrn:HO.EY:UG4Eo6t1">
+            <field name="LEFT">TRUE</field>
+            <field name="DOWN">TRUE</field>
+            <field name="UP">TRUE</field>
+            <field name="RIGHT">TRUE</field>
+            <next>
+              <block type="controls_if" id=".$5EeT/Bbtj2Hj+.h?JH">
+                <value name="IF0">
+                  <block type="keys" id=":g|^$oW,?I2d:|YGm`Us">
+                    <field name="KEY">LEFT</field>
+                    <field name="STATE">PRESSED</field>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="animation" id="@gRqauu=XEXLkJE7[uVt">
+                    <field name="NAME">player</field>
+                    <field name="XFLIP">TRUE</field>
+                    <field name="YFLIP">FALSE</field>
+                  </block>
+                </statement>
+                <next>
+                  <block type="controls_if" id="yYWAUjNQh8=q5^+Ei0]1">
+                    <value name="IF0">
+                      <block type="keys" id="HTsH_#%wbHwgr=8sM)a4">
+                        <field name="KEY">RIGHT</field>
+                        <field name="STATE">PRESSED</field>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="animation" id="{[{^gx|s-~#C%Ao%4+hp">
+                        <field name="NAME">player</field>
+                        <field name="XFLIP">FALSE</field>
+                        <field name="YFLIP">FALSE</field>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="actor" id="W%{Y1;n7}_;7S-A8ijG-" x="638" y="210">
+    <field name="NAME">test</field>
+    <statement name="INIT">
+      <block type="animation" id="l=CU;60tI=Ls`.U,!l-N">
+        <field name="NAME">red</field>
+        <field name="XFLIP">FALSE</field>
+        <field name="YFLIP">FALSE</field>
+      </block>
+    </statement>
+    <statement name="RUN">
+      <block type="controls_if" id="^nwXuQy(6V+(y4)i46~Q">
+        <value name="IF0">
+          <block type="every_x_frames" id="OYO(RF1ujC/]F{({aW*Y">
+            <field name="FREQUENCY">32</field>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="set_math" id="@=o*M}GwG.{i,[.Mk^YH">
+            <field name="OPERATION">XOR</field>
+            <value name="VARIABLE">
+              <block type="property" id="+{TmhMp]^iVkd~.7(d:c">
+                <field name="NAME">VAR1</field>
+              </block>
+            </value>
+            <value name="LEFT">
+              <block type="property" id="m;01id,wf?A`01pv(St(">
+                <field name="NAME">VAR1</field>
+              </block>
+            </value>
+            <value name="RIGHT">
+              <block type="math_number" id="F=_D(f}wIEQo7c-E?BjJ">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+            <next>
+              <block type="controls_if" id="Ld^$T@OAc9P)]VU~=JfV">
+                <mutation else="1"></mutation>
+                <value name="IF0">
+                  <block type="logic_compare" id="kl*K-8U31F]4}/%p@,f|">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="property" id="OE*?3sEiPC=Q@SVDnYN0">
+                        <field name="NAME">VAR1</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="}[LwfQw]p}SyYF@K*=K;">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="animation" id="Vj)$;V`!N@[Zur;5(pMc">
+                    <field name="NAME">green</field>
+                    <field name="XFLIP">FALSE</field>
+                    <field name="YFLIP">FALSE</field>
+                  </block>
+                </statement>
+                <statement name="ELSE">
+                  <block type="animation" id="KKA6nxDCNl)%_I*,AV:^">
+                    <field name="NAME">red</field>
+                    <field name="XFLIP">FALSE</field>
+                    <field name="YFLIP">FALSE</field>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>
