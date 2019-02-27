@@ -536,8 +536,10 @@ function initArt() {
 		pos.x = (pos.x>>4)&15;
 		pos.y = (pos.y>>4)&15;
 		if(evt.button == 0) {
-			block_map[pos.x][pos.y] = block_map_list[block_map_picked];
-			updateMap();
+			let block = block_map_list[block_map_picked];
+			block_map[pos.x][pos.y] = block
+			let ctx = document.getElementById('map').getContext("2d");
+			renderMapBlock(ctx, block_list[block], pos.x<<4, pos.y<<4);
 			mapDrag = true;
 			mapDragX = pos.x;
 			mapDragY = pos.y;
@@ -559,8 +561,10 @@ function initArt() {
 				return;
 			mapDragX = pos.x;
 			mapDragY = pos.y;
-			block_map[pos.x][pos.y] = block_map_list[block_map_picked];
-			updateMap();
+			let block = block_map_list[block_map_picked];
+			block_map[pos.x][pos.y] = block
+			let ctx = document.getElementById('map').getContext("2d");
+			renderMapBlock(ctx, block_list[block], pos.x<<4, pos.y<<4);
 		}
 	}, false);
 
