@@ -533,8 +533,8 @@ function initArt() {
 	canvas = document.getElementById('map');
 	canvas.addEventListener('mousedown', function(evt) {
 		var pos = getMousePos(canvas, evt);
-		pos.x = (pos.x>>4)&15;
-		pos.y = (pos.y>>4)&15;
+		pos.x = Math.min(15, Math.max(0, pos.x>>4));
+		pos.y = Math.min(15, Math.max(0, pos.y>>4));
 		if(evt.button == 0) {
 			let block = block_map_list[block_map_picked];
 			block_map[pos.x][pos.y] = block
@@ -555,8 +555,8 @@ function initArt() {
 	canvas.addEventListener('mousemove', function(evt) {
 		if(mapDrag) {
 			var pos = getMousePos(canvas, evt);
-			pos.x = (pos.x>>4)&15;
-			pos.y = (pos.y>>4)&15;
+			pos.x = Math.min(15, Math.max(0, pos.x>>4));
+			pos.y = Math.min(15, Math.max(0, pos.y>>4));
 			if(mapDragX == pos.x && mapDragY == pos.y)
 				return;
 			mapDragX = pos.x;
