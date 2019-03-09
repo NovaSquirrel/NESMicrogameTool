@@ -116,7 +116,12 @@ line</textarea>
            <input type="checkbox" onchange="updateMap();" id="mapshowactors">Show actors on map<br>
            <canvas class="unselectable" id="map" width="256" height="240" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false" oncontextmenu="return false;"></canvas><br>
            <span id="map_blockedit"><b>Blocks</b><br>
-           <canvas class="unselectable" id="map_blocks" width="256" height="64" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false"></canvas></span><br>
+           <canvas class="unselectable" id="map_blocks" width="256" height="64" style="background-color:white; border: 1px solid;" imageSmoothingEnabled="false"></canvas></span>
+           <span id="map_actoredit"><b>Actors</b><br>
+             <ol id="map_actor_ul" start="0">
+             </ol>
+             <select id="map_actorselect"></select><button onclick="addMapActorList();">Add</button>
+           </span>
          </div>
          <div id="rightanimation" style="display:none;">
            <b>Animation</b><br>

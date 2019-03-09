@@ -402,11 +402,90 @@ function updateMapBlockPicker() {
 	ctx.strokeStyle = "#ff00ff";
 	ctx.rect( (block_map_picked&15)<<4, (block_map_picked&~15), 15, 15);
 	ctx.stroke();
-} 
+}
+
+
+var actor_placement = [];
+function updateMapActorList() {
+	var select = document.getElementById("map_actor_ul");
+	while(select.firstChild) {
+		select.removeChild(select.firstChild);
+	}
+	for(let i=0; i<actor_placement.length; i++) {
+		let li = document.createElement("li");
+
+		let input_x = document.createElement("input");
+		input_x.type = "number";
+		input_x.min = "0";
+		input_x.max = "255";
+		input_x.value = actor_placement[i][1];
+		input_x.onchange = function() {
+			actor_placement[i][1] = input_x.value;
+			if(document.getElementById("mapshowactors").checked)
+				updateMap();
+		};
+		li.appendChild(input_x);
+
+		let input_y = document.createElement("input");
+		input_y.type = "number";
+		input_y.min = "0";
+		input_y.max = "255";
+		input_y.value = actor_placement[i][2];
+		input_y.onchange = function() {
+			actor_placement[i][2] = input_y.value;
+			if(document.getElementById("mapshowactors").checked)
+				updateMap();
+		};
+		li.appendChild(input_y);
+
+		let del = document.createElement("button");
+		del.innerHTML = "-";
+		del.onclick = function() {
+			actor_placement.splice(i, 1);
+			updateMapActorList();
+			if(document.getElementById("mapshowactors").checked)
+				updateMap();
+		};
+		li.appendChild(del);
+
+		li.appendChild(document.createTextNode(actor_placement[i][0]));
+
+		select.appendChild(li);
+	}
+}
+
+function updateMapActorSelect() {
+	var select = document.getElementById("map_actorselect"); 
+	while(select.firstChild) {
+		select.removeChild(select.firstChild);
+	}
+	var text = document.getElementById('actorlist').value.split('\n');
+	for(var i in text) {
+		if(text[i].trim() == "")
+			continue;
+		el = document.createElement("option");
+		el.textContent = text[i];
+		el.value = text[i];
+		select.appendChild(el);
+	}
+}
+
+function addMapActorList() {
+	if(actor_placement.length >= 16)
+		return;
+	var select = document.getElementById("map_actorselect");
+	actor_placement.push([select.value, 128, 128]);
+	updateMapActorList();
+
+	if(document.getElementById("mapshowactors").checked)
+		updateMap();
+}
+
 function updateMap() {
 	let canvas = document.getElementById('map');
 	let ctx = canvas.getContext("2d");
 
+	// Display blocks
 	for(let x=0; x<16; x++) {
 		for(let y=0; y<15; y++) {
 			let block = block_map[x][y];
@@ -415,6 +494,13 @@ function updateMap() {
 				continue;
 			}
 			renderMapBlock(ctx, block_list[block], x*16, y*16);
+		}
+	}
+
+	// Display actors
+	if(document.getElementById("mapshowactors").checked) {
+		for(let i=0; i<actor_placement.length; i++) {
+			renderNESTile(ctx, "0123456789ABCDEF".charCodeAt(i), actor_placement[i][1]-4, actor_placement[i][2]-4, 4, false);
 		}
 	}
 }
@@ -617,11 +703,16 @@ function rightChange() {
 		updateMap();
 		updateMapBlockPicker();
 		editor_state = VIEW_MAP;
+		document.getElementById('map_blockedit').style.display = 'block';
+		document.getElementById('map_actoredit').style.display = 'none';
 	}
 	if(which == 'actorplacement') {
 		updateMap();
-		updateMapBlockPicker();
+		updateMapActorList();
+		updateMapActorSelect();
 		editor_state = VIEW_ACTOR_PLACEMENT;
+		document.getElementById('map_blockedit').style.display = 'none';
+		document.getElementById('map_actoredit').style.display = 'block';
 	}
 	if(which == 'animation')
 		editor_state = VIEW_ANIMATION;
