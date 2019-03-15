@@ -717,3 +717,48 @@ function rightChange() {
 	if(which == 'animation')
 		editor_state = VIEW_ANIMATION;
 }
+
+function downloadJSON() {
+	var filename = 'microgame.json';
+
+	var game = {};
+	game['map'] = block_map;
+	game['actor_placement'] = actor_placement;
+	game['blocks'] = block_list;
+	game['bgcolor'] = palette_background;
+	game['palette'] = palette_values;
+	game['animation'] = animation_list;
+	game['actor_list'] = document.getElementById('actorlist').value;
+
+	var text = JSON.stringify(game, null, 2);
+
+	var element = document.createElement('a');
+	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+	element.setAttribute('download', filename);
+	element.style.display = 'none';
+	document.body.appendChild(element);
+	element.click();
+	document.body.removeChild(element);
+}
+
+function uploadJSON() {
+	var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+	var fileReader = new FileReader();
+	fileReader.onload = function(fileLoadedEvent){
+		var textFromFileLoaded = fileLoadedEvent.target.result;
+		var game = JSON.parse(textFromFileLoaded);
+
+		block_map = game['map'];
+		actor_placement = game['actor_placement'];
+		block_list = game['blocks'];
+		palette_background = game['bgcolor'];
+		palette_values = game['palette'];
+		animation_list = game['animation'];
+		document.getElementById('actorlist').value = game['actor_list'];
+		updateAnimationList();
+		updatePalette();
+		updateBlockList();
+	};
+	fileReader.readAsText(fileToLoad, "UTF-8");
+}
